@@ -1,0 +1,50 @@
+[
+    {
+        "player": "0x9846b373C73eA23b0Ca9eF0679f6A12E94734382",
+        "bet": 0,
+        "betAmount": 0.048309178743961,
+        "requestId": "6365158127776519630274868276972568710915435315091955512076143983610673193169",
+        "transaction_id": "0x614dc22b45dd280e26c1db075f6847bbf7518ba4e2f8d7e01b1732798b3c9eca",
+        "playAt": 1661845394,
+        "result": 0,
+        "isWin": false
+    },
+    {
+        "player": "0x9846b373C73eA23b0Ca9eF0679f6A12E94734382",
+        "bet": 0,
+        "betAmount": 0.048309178743961,
+        "requestId": "100991386425411040940335469767454047921721634487645702861290440516682078954165",
+        "transaction_id": "0x6c0a85f2a90eeace8de48de09ceb56e4f75839a64a9659e22ce0583b457047d8",
+        "playAt": 1661845394,
+        "result": 0,
+        "isWin": false
+    },
+    {
+        "player": "0x5Ae277095Fe654618F5a0eCE23C3D1C76Edec446",
+        "bet": 1,
+        "betAmount": 0.009661835748792,
+        "requestId": "111649616417075017992179432885062144112601977548175626374180764614835175585616",
+        "transaction_id": "0xb9d8ca4b04be4eafa74d3091f94d5b92defb8c4f26bde8363db11af93605563d",
+        "playAt": 1661845394,
+        "result": 0,
+        "isWin": false
+    },
+    {
+        "player": "0x5Ae277095Fe654618F5a0eCE23C3D1C76Edec446",
+        "bet": 1,
+        "betAmount": 0.009661835748792,
+        "requestId": "545344205525072967386667667485819353061075989495406015324979588916352546406",
+        "transaction_id": "0x43b81c1e32cf795d08786b6ae6339316d089aaa61132173af9c24f77d7f68d1a",
+        "playAt": 1661845397,
+        "result": 1,
+        "isWin": false
+    },
+    {
+        "player": "0x5Ae277095Fe654618F5a0eCE23C3D1C76Edec446",
+        "bet": 0,
+        "betAmount": 0.048309178743961,
+        "requestId": "98926982918418080780789241912829756506955499701768579603072566900786789277746",
+        "transaction_id": "0x5e5bb776e63fe93449d1756a1c4ca2c497190e12c4b978dcbeac9ca4f31e00d3",
+        "playAt": 1664092950
+    }
+]

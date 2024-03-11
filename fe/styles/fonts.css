@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "DMSans-Bold";
+  src: url("/fonts/DMSans-Bold.ttf");
+}
+@font-face {
+  font-family: "DMSans-BoldItalic";
+  src: url("/fonts/DMSans-BoldItalic.ttf");  
+}
+@font-face {
+  font-family: "DMSans-Italic";
+  src: url("/fonts/DMSans-Italic.ttf");
+}
+@font-face {
+  font-family: "DMSans-Medium";
+  src: url("/fonts/DMSans-Medium.ttf");
+}
+@font-face {
+  font-family: "DMSans-MediumItalic";
+  src: url("/fonts/DMSans-MediumItalic.ttf");
+}
+@font-face {
+  font-family: "DMSans-Regular";
+  src: url("/fonts/DMSans-Regular.ttf");
+}
+@font-face {
+  font-family: "NotoSans-Bold";
+  src: url("/fonts/NotoSans-Bold.ttf");
+}
+
+@font-face {
+  font-family: "StateWide";
+  src: url("/fonts/state-wide-extra-bold.ttf");
+}
