@@ -8,8 +8,8 @@ async function main() {
   console.log("deploy from address: ", deployer.address);
 
   const FlipCoin = await ethers.getContractFactory("FlipCoin");
-  const accountId = 34;
-  const vrfCoodinator = "0x6B4c0b11bd7fE1E9e9a69297347cFDccA416dF5F";
+  const accountId = 751;
+  const vrfCoodinator = "0xDA8c0A00A372503aa6EC80f9b29Cc97C454bE499";
   const keyHash =
     "0xd9af33106d664a53cb9946df5cd81a30695f5b72224ee64e798b278af812779c";
   const flipCoin = await FlipCoin.deploy(accountId, vrfCoodinator, keyHash);
