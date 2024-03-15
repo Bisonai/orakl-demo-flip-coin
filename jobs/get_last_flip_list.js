@@ -2,7 +2,7 @@ const fs = require("fs");
 const web3 = require("web3");
 const abi = require("./smcAbi.json");
 const block_log_path = "block_flip_log.txt";
-const flip_list_path = "../fe/json/data.json";
+const flip_list_path = "json/data.json";
 
 const listSize = 20;
 let last_block = 0;
