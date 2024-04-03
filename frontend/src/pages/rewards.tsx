@@ -50,11 +50,11 @@ const Rewards: NextPage = () => {
       setProcess(true);
       const contract = new FlipCoinContract(web3Provider);
       await contract.claim();
-      toast(getToast(`Claim success.`, "success", "CLAIM"));
+      toast(getToast(`Successfully claimed.`, "success", "CLAIM"));
       dispatch(generateContract(web3Provider));
       setInfo(undefined);
     } catch (er) {
-      toast(getToast("something error!"));
+      toast(getToast("Claiming failed!"));
     }
     setProcess(false);
   }, [web3Provider]);
