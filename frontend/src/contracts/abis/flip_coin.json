@@ -3,17 +3,17 @@
     "inputs": [
       {
         "internalType": "uint64",
-        "name": "accountId",
+        "name": "_accountId",
         "type": "uint64"
       },
       {
         "internalType": "address",
-        "name": "coordinator",
+        "name": "_coordinator",
         "type": "address"
       },
       {
         "internalType": "bytes32",
-        "name": "keyHash",
+        "name": "_keyHash",
         "type": "bytes32"
       }
     ],
@@ -173,6 +173,32 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint32",
+        "name": "callbackGasLimit",
+        "type": "uint32"
+      }
+    ],
+    "name": "SetGasLimit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "keyHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "SetKeyHash",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "setter",
         "type": "address"
@@ -180,12 +206,62 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "newFee",
+        "name": "tax",
         "type": "uint256"
       }
     ],
-    "name": "SetTaxFee",
+    "name": "SetTax",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "accId",
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "bets",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "callbackGasLimit",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -198,13 +274,26 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "bet",
+        "name": "_bet",
         "type": "uint256"
       }
     ],
     "name": "flip",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "keyHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -228,7 +317,7 @@
         "type": "address"
       }
     ],
-    "name": "playerInfors",
+    "name": "players",
     "outputs": [
       {
         "internalType": "uint256",
@@ -237,36 +326,12 @@
       },
       {
         "internalType": "uint256",
-        "name": "total",
+        "name": "totalCount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
         "name": "balance",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "players",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
         "type": "uint256"
       }
     ],
@@ -306,7 +371,7 @@
         "type": "uint256"
       }
     ],
-    "name": "requestInfors",
+    "name": "requests",
     "outputs": [
       {
         "internalType": "address",
@@ -338,36 +403,10 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "sAccountId",
-    "outputs": [
-      {
-        "internalType": "uint64",
-        "name": "",
-        "type": "uint64"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "sKeyHash",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint64",
-        "name": "accId",
+        "name": "_accId",
         "type": "uint64"
       }
     ],
@@ -380,7 +419,7 @@
     "inputs": [
       {
         "internalType": "uint32",
-        "name": "newGas",
+        "name": "_callbackGasLimit",
         "type": "uint32"
       }
     ],
@@ -393,7 +432,7 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "newHash",
+        "name": "_keyHash",
         "type": "bytes32"
       }
     ],
@@ -406,18 +445,18 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newFee",
+        "name": "_tax",
         "type": "uint256"
       }
     ],
-    "name": "setTaxFee",
+    "name": "setTax",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "taxFee",
+    "name": "tax",
     "outputs": [
       {
         "internalType": "uint256",
@@ -430,46 +469,7 @@
   },
   {
     "inputs": [],
-    "name": "taxFeeMax",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalRemainBalance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalRequest",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalWinCount",
+    "name": "taxMax",
     "outputs": [
       {
         "internalType": "uint256",
@@ -494,10 +494,23 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "unclaimed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "_amount",
         "type": "uint256"
       }
     ],

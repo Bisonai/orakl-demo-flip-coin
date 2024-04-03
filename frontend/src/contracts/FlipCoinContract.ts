@@ -11,11 +11,11 @@ export class FlipCoinContract extends BaseInterface {
   }
 
   playerInfors = async (address: string): Promise<IPlayerInfo> => {
-    const rs = await this._contract.playerInfors(address);
+    const rs = await this._contract.players(address);
     return {
       winCount: this._toNumber(rs.winCount),
+      total: this._toNumber(rs.totalCount),
       balance: this._toEther(rs.balance),
-      total: this._toNumber(rs.total),
     };
   };
 
@@ -38,13 +38,13 @@ export class FlipCoinContract extends BaseInterface {
   };
 
   requestInfors = async (requestId: string): Promise<IRequestInfo> => {
-    const rs = await this._contract.requestInfors(requestId);
+    const rs = await this._contract.requests(requestId);
     const rp: IRequestInfo = {
+      player: rs.player,
       bet: this._toNumber(rs.bet),
       betAmount: this._toNumber(rs.betAmount),
-      hasResult: rs.hasResult,
-      player: rs.player,
       result: this._toNumber(rs.result),
+      hasResult: rs.hasResult,
     };
     return rp;
   };

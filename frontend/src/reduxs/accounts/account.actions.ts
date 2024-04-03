@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import { FlipCoinContract } from "../../contracts/FipCoinContract";
+import { FlipCoinContract } from "../../contracts/FlipCoinContract";
 import { IRequestInfo } from "../../contracts/types";
 import { IFlipModel, IWalletInfo } from "../../types";
 import { timer } from "../../utils";
@@ -32,9 +32,11 @@ export const flipCoinAction = createAsyncThunk<IRequestInfo, IFlipModel>(
     const flipContract = new FlipCoinContract(web3Provider);
     const flipResponse = await flipContract.flip(model.type, model.amount);
     const TIME_OUT = 5000;
-    while (true) {      
-      const rs: IRequestInfo = await flipContract.requestInfors(flipResponse.requestId);
-      if (rs.hasResult) return {...rs, txHash: flipResponse.txHash};
+    while (true) {
+      const rs: IRequestInfo = await flipContract.requestInfors(
+        flipResponse.requestId
+      );
+      if (rs.hasResult) return { ...rs, txHash: flipResponse.txHash };
       await timer(TIME_OUT);
     }
   }

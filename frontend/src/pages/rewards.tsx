@@ -10,7 +10,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
-import { FlipCoinContract } from "../contracts/FipCoinContract";
+import { FlipCoinContract } from "../contracts/FlipCoinContract";
 import { IPlayerInfo } from "../contracts/types";
 import {
   generateContract,
