@@ -1,14 +1,15 @@
 {
-  "name": "jobs",
+  "name": "@bisonai/flip-coin-orakl-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Flip Coin Orakl Backend",
+  "author": "Bisonai",
+  "homepage": "https://github.com/Bisonai/flip-coin-orakl/tree/main/backend",
+  "license": "MIT",
   "main": "getLastFlipList.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node get_last_flip_list.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "web3": "^1.8.0"
   }

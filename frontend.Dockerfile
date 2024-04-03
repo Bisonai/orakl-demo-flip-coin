@@ -4,9 +4,9 @@ RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 WORKDIR /app
 
-COPY --chown=nextjs:nodejs fe fe 
+COPY --chown=nextjs:nodejs frontend frontend
 
-WORKDIR /app/fe
+WORKDIR /app/frontend
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

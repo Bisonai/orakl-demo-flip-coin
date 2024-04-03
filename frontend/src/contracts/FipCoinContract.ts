@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { BaseInterface } from "./interfaces";
 import { FLIP_TYPE, IFlipResponse, IPlayerInfo, IRequestInfo } from "./types";
 import { getFlipCoinAbi } from "./utils/getAbis";
-import { getFlipCoinAddress } from "./utils/getAddress";
+import { getFlipCoinAddress } from "../utils/getEnv";
 
 export class FlipCoinContract extends BaseInterface {
   constructor(provider: ethers.providers.Web3Provider) {

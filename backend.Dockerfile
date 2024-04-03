@@ -2,6 +2,6 @@
 
 FROM node:18-alpine
 WORKDIR /app
-COPY jobs jobs
+COPY backend backend
 
-WORKDIR /app/jobs
+WORKDIR /app/backend

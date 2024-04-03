@@ -15,7 +15,6 @@ contract FlipCoin is VRFConsumerBase, Ownable {
 
     bytes32 public sKeyHash;
 
-    // function.
     uint32 sCallbackGasLimit = 300000;
 
     // For this example, retrieve 2 random values in one request.
@@ -125,7 +124,7 @@ contract FlipCoin is VRFConsumerBase, Ownable {
     }
 
     function fulfillRandomWords(
-        uint256 requestId /* requestId */,
+        uint256 requestId,
         uint256[] memory randomWords
     ) internal override {
         uint result = randomWords[0] % 2;
@@ -134,7 +133,7 @@ contract FlipCoin is VRFConsumerBase, Ownable {
         uint bet = requestInfors[requestId].bet;
         uint256 betAmount = requestInfors[requestId].betAmount;
         address player = requestInfors[requestId].player;
-        //
+
         if (bet == result) //win
         {
             playerInfors[player].winCount += 1;
@@ -170,5 +169,4 @@ contract FlipCoin is VRFConsumerBase, Ownable {
 
     // Receive remaining payment from requestRandomWordsPayment
     receive() external payable {}
-
 }

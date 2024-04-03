@@ -3,6 +3,7 @@ import {
   TransactionResponse,
 } from "@ethersproject/abstract-provider";
 import { BigNumber, ethers, Overrides, ContractReceipt } from "ethers";
+import { getExplorerUrl } from "../utils";
 
 export default class BaseInterface {
   _provider: ethers.providers.Web3Provider | ethers.providers.JsonRpcProvider;
@@ -35,11 +36,11 @@ export default class BaseInterface {
       }
       const recept: ContractReceipt = await tx.wait();
       const event = recept.events?.find((p) => p.event === eventName);
-      
-      if (!event || !event.args) {  
-        throw new Error (`event ${eventName} does not exist or args undefined.`);
-      }                  
-      return event.args;      
+
+      if (!event || !event.args) {
+        throw new Error(`event ${eventName} does not exist or args undefined.`);
+      }
+      return event.args;
     } catch (er: any) {
       throw new Error(er?.reason || `${er}`);
     }
@@ -48,14 +49,14 @@ export default class BaseInterface {
   _toNumber = (bigNumber: BigNumber) => {
     try {
       return bigNumber.toNumber();
-    } catch (er) {      
+    } catch (er) {
       return Number.parseFloat(ethers.utils.formatEther(bigNumber));
     }
   };
 
   _toEther = (bigNumber: BigNumber) => {
-    return Number.parseFloat(ethers.utils.formatEther(bigNumber));  
-  }
+    return Number.parseFloat(ethers.utils.formatEther(bigNumber));
+  };
 
   _toWei = (amount: number) => {
     return ethers.utils.parseUnits(amount.toString());

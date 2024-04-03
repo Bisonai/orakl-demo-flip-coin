@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: fe.Dockerfile
+      dockerfile: frontend.Dockerfile
     volumes:
       - leaderboard:/app/fe/json
     command: ["yarn", "start"]
@@ -12,10 +12,9 @@ services:
   job:
     build:
       context: .
-      dockerfile: job.Dockerfile
+      dockerfile: backend.Dockerfile
     volumes:
-      - leaderboard:/app/jobs/json
-
+      - leaderboard:/app/backend/json
     command: ["yarn", "start"]
 
 volumes:

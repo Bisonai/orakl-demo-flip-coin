@@ -1,58 +1,120 @@
-# flip-coin-orakl
+# Flip Coin
 
-HOW TO RUN THE DAPP FROM YOUR LOCAL MACHINE
+This repository contains a simple Flip Coin game utilizing [Orakl Network Verifiable Random Function](https://orakl.network/).
 
+## Development
 
-1. Deploying Smart Contracts:
+### 1. Create Orakl Network Account
 
-Navigate to the contracts folder: `cd contracts`
-Install dependencies by running either `yarn` or `npm install`.
+https://orakl.network/account
 
-Create a `.env` file and specify the following parameters:
+Add consumer
 
-`PRIV_KEY`: Deployer wallet private key
-`MNEMONIC`: Deployer Mnemonic
-Deploy the smart contracts on Baobab network by executing the command:
+Send KLAY from faucet for deployed contract
 
-`yarn deploy baobab`
+### 2. Deploy Smart Contracts
+
+Navigate to the `contracts` directory.
+
+```shell
+cd contracts
+```
+
+Install dependencies.
+
+```shell
+yarn install
+```
+
+Create an `.env` file and include `PRIV_KEY` environment variable representing private key that will be utilized for smart contract deployment.
+
+Deploy smart contracts on [Baobab network](https://klaytn.foundation) by executing the command:
+
+```shell
+yarn deploy baobab
+```
+
 The newly deployed contracts can be found in `contracts/config.json`
 
-Additionally, you can utilize the following commands:
+### 3. Launch backend
 
-`yarn test`: Run test cases.
-`yarn compile`: Compile contracts.
+Navigate to the `backend` directory.
 
-2. Deploying  job for getting latest flips
-Navigate to the jobs folder: `cd jobs`
-Install dependencies by running either `yarn` or `npm install`.
-start the job by running: `yarn start`
-
-3. Run the Frontend
-Navigate to the jobs folder: `cd fe`
-Install dependencies by running either `yarn` or `npm install`.
-
-Create a `.env` file and specify the following parameters:
+```shell
+cd backend
 ```
+
+Install dependencies and launch backend.
+
+```shell
+yarn install
+yarn start
+```
+
+### 4. Launch Frontend
+
+Navigate to the `frontend` directory.
+
+```shell
+cd frontend
+```
+
+Install dependencies.
+
+```shell
+yarn install
+```
+
+Create an `.env` file and specify the parameters below.
+
+```shell
 NEXT_PUBLIC_EXPLORER=
-NEXT_PUBLIC_RPC_TESTNET=
-NEXT_PUBLIC_CHAIN_ID=
-FLIPCOIN_ADDRESS=
+NEXT_PUBLIC_RPC_URL=
+NEXT_PUBLIC_FLIPCOIN_ADDRESS=
 ```
-Start the website in a development environment: `yarn dev`
-For production environment: `yarn build` then `yarn start`
 
-# HOW TO RUN THE DAPP WITH DOCKER
+Next, you can start the website in a development mode
 
-Ensure your Docker service is up and running on your local machine. For installing Docker on a Mac machine:
+```shell
+yarn dev
 ```
+
+or build it first, and launch in a production mode.
+
+```shell
+yarn build
+yarn start
+```
+
+# Docker
+
+Ensure your Docker service is up and running on your local machine.
+
+```shell
 brew install docker
 brew install docker-compose
 ```
-create a volume for storing job data: `docker volume create leadearboard`
-Build the Docker file for frontend: `docker-compose -f docker-compose.yml build`
-Run the Docker file: `docker-compose -f docker-compose.yml up`
+
+Create a volume for storing backend data
+
+```shell
+docker volume create leadearboard
+```
+
+Build the Docker file for frontend
+
+```shell
+docker-compose -f docker-compose.yml build
+```
+
+Run the Docker file
+
+```shell
+docker-compose -f docker-compose.yml up
+```
 
 This will start the application using Docker containers.
 
+## License
 
-
+[MIT License](LICENSE)
