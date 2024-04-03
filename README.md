@@ -15,11 +15,11 @@ After the user ends the game, all $KLAY can be claimed at once.
 
 ### 1. Create Orakl Network Account
 
-FlipCoin.sol requires you to have an [Orakl Network Permanent Account](https://docs.orakl.network/developers-guide/prepayment).
+[FlipCoin.sol](contracts/contracts/FlipCoin.sol) requires Orakl Network [Permanent Account](https://docs.orakl.network/developers-guide/prepayment).
 You can create one through https://orakl.network/account.
 Once you have successfully created an account, you will be prompted to "Add Consumer" (which will be possible after the `FlipCoin` smart contract is deployed) and to "Deposit $KLAY" into your account.
 The $KLAY in your account will be used as payment for VRF requests.
-If you do not have $KLAY in your Orakl Network account, you won't be able to request VRF, and the Flip Coin game will not function.
+If you do not have $KLAY in your account, you won't be able to request VRF, and the Flip Coin game will not function.
 $KLAY tokens can be obtained from the [Baobab faucet](https://baobab.wallet.klaytn.foundation/faucet).
 
 ### 2. Deploy Smart Contracts
@@ -55,14 +55,14 @@ yarn deploy baobab
 After successfull execution you should be able to see output similar to the following.
 
 ```
-yarn run v1.22.19
 $ hardhat run scripts/deploy.ts --network baobab
 Creating Typechain artifacts in directory typechain for target ethers-v5
 Successfully generated Typechain artifacts!
 Deployer 0xa37AcA2eaf7dcc199820Dc17689a17839B7510e9
 FlipCoin 0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F
-✨  Done in 1.96s.
 ```
+
+Now, you need to add address of your deployed `FlipCoin` contract as consumer to your Orakl Network account.
 
 ### 3. Launch backend (optional)
 
