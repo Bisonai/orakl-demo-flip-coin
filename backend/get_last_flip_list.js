@@ -1,35 +1,22 @@
 const fs = require("fs");
 const web3 = require("web3");
-const abi = require("./smcAbi.json");
-const block_log_path = "block_flip_log.txt";
-const flip_list_path = "json/data.json";
+require("dotenv").config();
 
+const abi = require("./FlipCoin.json");
+const block_log_path = "block_flip_log.txt";
+const flip_list_path = "data.json";
 const listSize = 20;
+
+const rpc = process.env.RPC_URL;
+const contract_address = process.env.FLIPCOIN_ADDRESS;
+const provider = new web3.providers.HttpProvider(rpc);
+const web3bsc = new web3(provider);
+const contract = new web3bsc.eth.Contract(abi, contract_address);
+
 let last_block = 0;
 let apiurl = "";
-let rpc = "";
-let contract_address;
-let provider;
-let web3bsc;
-let contract;
 let isBlock = false;
-let mode = "";
 
-if (mode == "PRODUCTION") {
-  rpc = "https://api.baobab.klaytn.net:8651";
-  contract_address = "0x0210B31aA5Ce547cC399E52D7d40770cB65AF323";
-  provider = new web3.providers.HttpProvider(rpc);
-  web3bsc = new web3(provider);
-  contract = new web3bsc.eth.Contract(abi, contract_address);
-  console.log("production");
-} else {
-  rpc = "https://api.baobab.klaytn.net:8651";
-  contract_address = "0x0210B31aA5Ce547cC399E52D7d40770cB65AF323";
-  provider = new web3.providers.HttpProvider(rpc);
-  web3bsc = new web3(provider);
-  contract = new web3bsc.eth.Contract(abi, contract_address);
-  console.log("dev");
-}
 function getlastblock() {
   try {
     last_block = fs.readFileSync(block_log_path, "utf8");
@@ -61,7 +48,7 @@ async function run() {
       lastest_block = parseInt(last_block) + 1000;
     }
     let options = {
-      fromBlock: last_block, //Number || "earliest" || "pending" || "latest"
+      fromBlock: last_block,
       toBlock: lastest_block,
     };
     let lst = [];

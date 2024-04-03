@@ -11,6 +11,7 @@
     "start": "node get_last_flip_list.js"
   },
   "dependencies": {
-    "web3": "^1.8.0"
+    "web3": "^1.8.0",
+    "dotenv": "^16.0.1"
   }
 }

@@ -44,6 +44,12 @@ Navigate to the `backend` directory.
 cd backend
 ```
 
+Create an `.env` file and specify the parameters below.
+```shell
+RPC_URL=
+FLIPCOIN_ADDRESS=
+```
+
 Install dependencies and launch backend.
 
 ```shell
