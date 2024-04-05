@@ -1,54 +1,43 @@
-//SPDX-License-Identifier: UNLICENSED
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
-import "openzeppelin-solidity/contracts/access/Ownable.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Ownable} from "openzeppelin-solidity/contracts/access/Ownable.sol";
 import {VRFConsumerBase} from "@bisonai/orakl-contracts/src/v0.1/VRFConsumerBase.sol";
 import {IVRFCoordinator} from "@bisonai/orakl-contracts/src/v0.1/interfaces/IVRFCoordinator.sol";
 
 contract FlipCoin is VRFConsumerBase, Ownable {
-    using SafeERC20 for IERC20;
     IVRFCoordinator COORDINATOR;
-    // Your subscription ID.
-    uint64 public sAccountId;
 
-    bytes32 public sKeyHash;
+    uint64 public accId;
+    bytes32 public keyHash;
+    uint32 public callbackGasLimit = 300_000;
 
-    // function.
-    uint32 sCallbackGasLimit = 300000;
+    uint256 public tax = 350; // basis points (3.5%)
+    uint256 public taxMax = 10_000; // basis points (100%)
+    uint256 public unclaimed = 0;
 
-    // For this example, retrieve 2 random values in one request.
-    uint32 sNumWords = 1;
-
-    // random number is 0: head, 1: tail
-    uint256 public taxFee = 35; // 3,5 %
-    uint256 public taxFeeMax = 50; // 10 %
-    uint256 public totalRequest = 0;
-    uint256 public totalWinCount = 0;
-    uint256 public totalRemainBalance = 0;
-
-    struct playerInfor {
+    struct Player {
         uint256 winCount;
-        uint256 total;
+        uint256 totalCount;
         uint256 balance;
     }
 
-    struct requestInfor {
+    struct Request {
         address player;
         uint256 bet;
         uint256 betAmount;
         uint result;
         bool hasResult;
     }
-    mapping(uint256 => requestInfor) public requestInfors;
-    mapping(address => playerInfor) public playerInfors;
-    // uint256[]: list request id
-    mapping(address => uint256[]) public players;
+    mapping(uint256 => Request) public requests;
+    mapping(address => Player) public players;
+    mapping(address => uint256[]) public bets;
 
     event SetCoordinator(address setter, address newCoordinator);
-    event SetTaxFee(address setter, uint256 newFee);
+    event SetTax(address setter, uint256 tax);
     event SetAccountId(uint64 accId);
+    event SetKeyHash(bytes32 keyHash);
+    event SetGasLimit(uint32 callbackGasLimit);
     event Flip(
         address player,
         uint256 bet,
@@ -64,111 +53,115 @@ contract FlipCoin is VRFConsumerBase, Ownable {
     event Claim(address player, uint256 amount);
 
     constructor(
-        uint64 accountId,
-        address coordinator,
-        bytes32 keyHash
-    ) VRFConsumerBase(coordinator) {
-        COORDINATOR = IVRFCoordinator(coordinator);
-        sAccountId = accountId;
-        sKeyHash = keyHash;
+        uint64 _accountId,
+        address _coordinator,
+        bytes32 _keyHash
+    ) VRFConsumerBase(_coordinator) {
+        COORDINATOR = IVRFCoordinator(_coordinator);
+        accId = _accountId;
+        keyHash = _keyHash;
     }
 
-    function setAccountId(uint64 accId) public onlyOwner {
-        sAccountId = accId;
-        emit SetAccountId(accId);
+    function setAccountId(uint64 _accId) public onlyOwner {
+        accId = _accId;
+        emit SetAccountId(_accId);
     }
 
-    function setTaxFee(uint256 newFee) public onlyOwner {
-        require(newFee <= taxFeeMax, "Fee out of range");
-        taxFee = newFee;
-        emit SetTaxFee(msg.sender, newFee);
+    function setTax(uint256 _tax) public onlyOwner {
+        require(_tax <= taxMax, "FlipCoin: Tax fee out of range");
+        tax = _tax;
+        emit SetTax(msg.sender, _tax);
     }
 
-    function setKeyHash(bytes32 newHash) public onlyOwner {
-        sKeyHash = newHash;
+    function setKeyHash(bytes32 _keyHash) public onlyOwner {
+        keyHash = _keyHash;
+	emit SetKeyHash(_keyHash);
     }
 
-    function setGasLimit(uint32 newGas) public onlyOwner {
-        sCallbackGasLimit = newGas;
+    function setGasLimit(uint32 _callbackGasLimit) public onlyOwner {
+        callbackGasLimit = _callbackGasLimit;
+	emit SetGasLimit(_callbackGasLimit);
     }
 
-    function flip(uint256 bet) public payable {
-        uint256 amount = msg.value;
-        require(msg.sender.balance >= amount, "Insufficient account balance");
-        uint256 betAmount = (msg.value / (1000 + taxFee)) * 1000;
-        uint256 fee = betAmount * (taxFee / 1000);
-        uint256 neededBalance = (betAmount * 2 + fee + totalRemainBalance); // balance need to pay for player
+    function flip(uint256 _bet) public payable {
+	uint256 fee_ = (msg.value * tax) / taxMax;
+	uint256 betAmount_ = msg.value - fee_;
+
+	unclaimed += betAmount_ * 2;
+        uint256 requiredBalance_ = unclaimed + fee_;
         require(
-            address(this).balance >= neededBalance,
-            "FlipCoin: Insufficient account balance"
+            address(this).balance >= requiredBalance_,
+            "FlipCoin: Insufficient contract balance"
         );
-        uint256 requestid = requestRandomWords();
-        //uint256 requestid =1;
-        players[msg.sender].push(requestid);
-        requestInfors[requestid].player = msg.sender;
-        requestInfors[requestid].bet = bet;
-        requestInfors[requestid].betAmount = betAmount;
 
-        totalRequest += 1;
-        playerInfors[msg.sender].total += 1;
+        uint256 requestId_ = requestRandomWords();
+        requests[requestId_].player = msg.sender;
+        requests[requestId_].bet = _bet;
+        requests[requestId_].betAmount = betAmount_;
+        players[msg.sender].totalCount += 1;
+	bets[msg.sender].push(requestId_);
 
-        emit Flip(msg.sender, bet, betAmount, requestid);
+        emit Flip(msg.sender, _bet, betAmount_, requestId_);
     }
 
-    function requestRandomWords() internal returns (uint256 requestId) {
-        requestId = COORDINATOR.requestRandomWords(
-            sKeyHash,
-            sAccountId,
-            sCallbackGasLimit,
-            sNumWords
+    function requestRandomWords() internal returns (uint256) {
+        return COORDINATOR.requestRandomWords(
+            keyHash,
+            accId,
+            callbackGasLimit,
+            1
         );
     }
 
     function fulfillRandomWords(
-        uint256 requestId /* requestId */,
-        uint256[] memory randomWords
+        uint256 _requestId,
+        uint256[] memory _randomWords
     ) internal override {
-        uint result = randomWords[0] % 2;
-        requestInfors[requestId].result = result;
-        requestInfors[requestId].hasResult = true;
-        uint bet = requestInfors[requestId].bet;
-        uint256 betAmount = requestInfors[requestId].betAmount;
-        address player = requestInfors[requestId].player;
-        //
-        if (bet == result) //win
-        {
-            playerInfors[player].winCount += 1;
-            playerInfors[player].balance += betAmount * 2;
-            totalWinCount += 1;
-            totalRemainBalance += betAmount * 2;
-        }
-        emit Result(player, requestId, result, randomWords[0]);
+        uint256 result_ = _randomWords[0] % 2;
+        requests[_requestId].result = result_;
+        requests[_requestId].hasResult = true;
+
+        uint256 bet_ = requests[_requestId].bet;
+        uint256 betAmount_ = requests[_requestId].betAmount;
+        address player_ = requests[_requestId].player;
+
+        if (bet_ == result_) {
+	    // won
+            players[player_].winCount += 1;
+            players[player_].balance += betAmount_ * 2;
+        } else {
+	    // lost
+	    unclaimed -= betAmount_;
+	}
+
+        emit Result(player_, _requestId, result_, _randomWords[0]);
     }
 
     function claim() public {
-        playerInfor storage playerinfor = playerInfors[msg.sender];
-        uint256 amount = playerinfor.balance;
-        require(amount > 0, "Insufficient account balance");
+        Player storage player_ = players[msg.sender];
+        uint256 amount_ = player_.balance;
+        require(amount_ > 0, "FlipCoin: Insufficient player balance");
         require(
-            address(this).balance >= amount,
-            "FlipCoin: Insufficient account balance"
+            unclaimed >= amount_,
+            "FlipCoin: Insufficient contract balance"
         );
-        playerinfor.balance = 0;
-        totalRemainBalance -= amount;
-        payable(msg.sender).transfer(amount);
-        emit Claim(msg.sender, amount);
+
+	unclaimed -= amount_;
+        player_.balance = 0;
+        emit Claim(msg.sender, amount_);
+
+        payable(msg.sender).transfer(amount_);
     }
 
-    function withdraw(uint256 amount) public onlyOwner {
-        uint256 availableBalance = address(this).balance - totalRemainBalance;
+    function withdraw(uint256 _amount) public onlyOwner {
+        uint256 treasuryBalance_ = address(this).balance - unclaimed;
         require(
-            availableBalance >= amount,
-            "FlipCoin: Insufficient account balance"
+            treasuryBalance_ >= _amount,
+            "FlipCoin: Insufficient balance in contract"
         );
-        payable(msg.sender).transfer(amount);
+        payable(msg.sender).transfer(_amount);
     }
 
     // Receive remaining payment from requestRandomWordsPayment
     receive() external payable {}
-
 }

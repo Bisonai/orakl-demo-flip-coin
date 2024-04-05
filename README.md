@@ -1,58 +1,160 @@
-# flip-coin-orakl
+# Flip Coin
 
-HOW TO RUN THE DAPP FROM YOUR LOCAL MACHINE
+This repository contains a simple flip coin game utilizing [Orakl Network Verifiable Random Function (VRF)](https://orakl.network/).
+VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repository is compatible with both.
 
+## What is Flip Coin Game?
 
-1. Deploying Smart Contracts:
+"Flip Coin" is a betting game implemented as a Solidity smart contract.
+Users can bet any amount of $KLAY on the outcome of a random coin flip, with a 50% chance for heads and a 50% chance for tails.
+Randomness is generated using the [Verifiable Random Function (VRF)](https://docs.orakl.network/developers-guide/vrf) provided by [Orakl Network](https://orakl.network/).
+If the bet is correct, the user is rewarded with twice the amount bet, otherwise, the smart contract retains the user's bet.
+After the user ends the game, all $KLAY can be claimed at once.
 
-Navigate to the contracts folder: `cd contracts`
-Install dependencies by running either `yarn` or `npm install`.
+## Development
 
-Create a `.env` file and specify the following parameters:
+### 1. Create Orakl Network Account
 
-`PRIV_KEY`: Deployer wallet private key
-`MNEMONIC`: Deployer Mnemonic
-Deploy the smart contracts on Baobab network by executing the command:
+[FlipCoin.sol](contracts/contracts/FlipCoin.sol) requires Orakl Network [Permanent Account](https://docs.orakl.network/developers-guide/prepayment).
+You can create one through https://orakl.network/account.
+Once you have successfully created an account, you will be prompted to "Add Consumer" (which will be possible after the `FlipCoin` smart contract is deployed) and to "Deposit $KLAY" into your account.
+The $KLAY in your account will be used as payment for VRF requests.
+If you do not have $KLAY in your account, you won't be able to request VRF, and the Flip Coin game will not function.
+$KLAY tokens can be obtained from the [Baobab faucet](https://baobab.wallet.klaytn.foundation/faucet).
 
-`yarn deploy baobab`
-The newly deployed contracts can be found in `contracts/config.json`
+### 2. Deploy Smart Contracts
 
-Additionally, you can utilize the following commands:
+Navigate to the `contracts` directory.
 
-`yarn test`: Run test cases.
-`yarn compile`: Compile contracts.
-
-2. Deploying  job for getting latest flips
-Navigate to the jobs folder: `cd jobs`
-Install dependencies by running either `yarn` or `npm install`.
-start the job by running: `yarn start`
-
-3. Run the Frontend
-Navigate to the jobs folder: `cd fe`
-Install dependencies by running either `yarn` or `npm install`.
-
-Create a `.env` file and specify the following parameters:
+```shell
+cd contracts
 ```
-NEXT_PUBLIC_EXPLORER=
-NEXT_PUBLIC_RPC_TESTNET=
-NEXT_PUBLIC_CHAIN_ID=
+
+Install dependencies.
+
+```shell
+yarn install
+```
+
+Create an `.env` file and specify the environment variables below.
+
+```
+PRIV_KEY=
+ACCOUNT_ID=
+```
+
+* `PRIV_KEY` - private key that will be utilized for smart contract deployment
+* `ACCOUNT_ID` - Orakl Network account ID (can be found at https://orakl.network/account)
+
+Deploy smart contracts on [Baobab network](https://klaytn.foundation) by executing the command below.
+
+```shell
+yarn deploy baobab
+```
+
+After successfull execution you should be able to see output similar to the following.
+
+```
+$ hardhat run scripts/deploy.ts --network baobab
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Deployer 0xa37AcA2eaf7dcc199820Dc17689a17839B7510e9
+FlipCoin 0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F
+```
+
+Now, you need to add address of your deployed `FlipCoin` contract as consumer to your Orakl Network account.
+
+### 3. Launch backend (optional)
+
+Navigate to the `backend` directory.
+
+```shell
+cd backend
+```
+
+Create an `.env` file and specify the parameters below.
+
+```shell
+RPC_URL=
 FLIPCOIN_ADDRESS=
 ```
-Start the website in a development environment: `yarn dev`
-For production environment: `yarn build` then `yarn start`
 
-# HOW TO RUN THE DAPP WITH DOCKER
+* `RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain (Cypress: https://klaytn-mainnet-rpc.allthatnode.com:8551, Baobab: https://klaytn-baobab-rpc.allthatnode.com:8551)
+* `FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
 
-Ensure your Docker service is up and running on your local machine. For installing Docker on a Mac machine:
+Install dependencies, and launch backend.
+
+```shell
+yarn install
+yarn start
 ```
+
+### 4. Launch Frontend
+
+Navigate to the `frontend` directory.
+
+```shell
+cd frontend
+```
+
+Install dependencies.
+
+```shell
+yarn install
+```
+
+Create an `.env` file and specify the parameters below.
+
+```shell
+NEXT_PUBLIC_EXPLORER=
+NEXT_PUBLIC_RPC_URL=
+NEXT_PUBLIC_FLIPCOIN_ADDRESS=
+```
+
+* `NEXT_PUBLIC_EXPLORER` - url of klaytn blockchain explorer (Cypress: https://klaytnfinder.io/, Baobab: https://baobab.klaytnfinder.io/)
+* `NEXT_PUBLIC_RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain (Cypress: https://klaytn-mainnet-rpc.allthatnode.com:8551, Baobab: https://klaytn-baobab-rpc.allthatnode.com:8551)
+* `NEXT_PUBLIC_FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
+
+Next, you can start the website in a development mode.
+
+```shell
+yarn dev
+```
+
+Or you can build it first, and then launch in a production mode.
+
+```shell
+yarn build
+yarn start
+```
+
+## Docker
+
+Ensure your Docker service is installed and running on your local machine.
+
+```shell
 brew install docker
 brew install docker-compose
 ```
-create a volume for storing job data: `docker volume create leadearboard`
-Build the Docker file for frontend: `docker-compose -f docker-compose.yml build`
-Run the Docker file: `docker-compose -f docker-compose.yml up`
 
-This will start the application using Docker containers.
+Create a volume for storing backend data.
 
+```shell
+docker volume create leadearboard
+```
 
+Build the Docker images (frontend + backend).
 
+```shell
+docker-compose -f docker-compose.yml build
+```
+
+Launch the containers (frontend + backend).
+
+```shell
+docker-compose -f docker-compose.yml up
+```
+
+## License
+
+[MIT License](LICENSE)

@@ -1,5 +1,8 @@
 {
   "baobab": {
-    "flipCoin": "0x0210B31aA5Ce547cC399E52D7d40770cB65AF323"
+    "flipCoin": "0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F"
+  },
+  "local": {
+    "flipCoin": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
   }
 }

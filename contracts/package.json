@@ -1,7 +1,10 @@
 {
-  "name": "smartcontract",
+  "name": "@bisonai/flip-coin-orakl",
   "version": "1.0.0",
-  "description": "",
+  "description": "Flip Coin Orakl Smart Contracts",
+  "author": "Bisonai",
+  "homepage": "https://github.com/Bisonai/flip-coin-orakl/tree/main/contracts",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "hardhat test",
@@ -9,8 +12,6 @@
     "verify": "hardhat verify --network",
     "compile": "hardhat compile"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
