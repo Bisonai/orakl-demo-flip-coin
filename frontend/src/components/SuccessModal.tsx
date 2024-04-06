@@ -25,7 +25,7 @@ export default function SuccessModal({
 }: IProps) {
   const onNavigation = () => {
     if (window) {
-      window.open(`${getExplorerUrl()}${hash}`, "_blank");
+      window.open(`${getExplorerUrl()}/tx/${hash}`, "_blank");
     }
   };
 
@@ -34,7 +34,7 @@ export default function SuccessModal({
   const sTitle = isSuccess ? "congratulation" : "oh!";
   const description = isSuccess
     ? "you have been doubled"
-    : "maybe your luck next time";
+    : "maybe you will be lucky next time";
 
   return (
     <Modal closeOnOverlayClick={false} {...props}>
