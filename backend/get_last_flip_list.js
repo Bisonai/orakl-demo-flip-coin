@@ -82,7 +82,7 @@ async function run() {
         req.result = undefined;
 
         if (leaderboard.indexOf((q) => q.requestId == req.requestId) == -1) {
-          leaderboard.push(req);
+          leaderboard.unshift(req);
           console.log("Flip", req);
         }
       });
