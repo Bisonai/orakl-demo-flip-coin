@@ -46,7 +46,7 @@ contract FlipCoin is VRFConsumerBase, Ownable {
     );
     event Result(
         address player,
-        uint256 requestid,
+        uint256 requestId,
         uint256 result,
         uint256 randomResult
     );
