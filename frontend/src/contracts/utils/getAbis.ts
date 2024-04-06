@@ -1,3 +1,3 @@
-import FlipCoinAbi from "../abis/flip_coin.json";
+import FlipCoinAbi from "../abis/FlipCoin.json";
 
 export const getFlipCoinAbi = () => FlipCoinAbi;
