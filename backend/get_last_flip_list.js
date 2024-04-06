@@ -3,8 +3,8 @@ const web3 = require("web3");
 require("dotenv").config();
 
 const abi = require("./FlipCoin.json");
-const blockLogPath = "block_flip_log.txt";
-const flip_list_path = "leaderboard/data.json";
+const blockLogPath = "coin-flip-block.txt";
+const leaderboardPath = "leaderboard/data.json";
 const listSize = 20;
 
 const rpc = process.env.RPC_URL;
@@ -15,15 +15,19 @@ const contract = new provider.eth.Contract(abi, contractAddress);
 
 let blocking = false;
 
-function getLastObservedBlock() {
+function readFile(filePath) {
   try {
-    return fs.readFileSync(blockLogPath, "utf8");
+    return fs.readFileSync(filePath, "utf8");
   } catch (error) {
     console.log(new Date().toISOString() + error);
   }
 }
 
-let fromBlock = getLastObservedBlock();
+let fromBlock = 0;
+
+try {
+  fromBlock = readFile(blockLogPath);
+} catch (error) {}
 
 async function writeLog(content, logfile) {
   try {
@@ -57,8 +61,10 @@ async function run() {
     };
 
     let leaderboard = [];
-    if (fs.existsSync(flip_list_path)) {
-      leaderboard = JSON.parse(fs.readFileSync(flip_list_path));
+    if (fs.existsSync(leaderboardPath)) {
+      try {
+        leaderboard = JSON.parse(readFile(leaderboardPath));
+      } catch (error) {}
     }
 
     let events = await contract.getPastEvents("Flip", options);
@@ -72,7 +78,7 @@ async function run() {
         );
         req.requestId = event.returnValues.requestId;
         req.transaction_id = event.transactionHash;
-        req.playAt = Math.floor(Date.now() / 1000);
+        req.playAt = (await provider.eth.getBlock(event.blockNumber)).timestamp;
         req.result = undefined;
 
         if (leaderboard.indexOf((q) => q.requestId == req.requestId) == -1) {
@@ -91,9 +97,11 @@ async function run() {
         req.result = parseInt(event.returnValues.result);
 
         let item = leaderboard.filter((q) => q.requestId == req.requestId)[0];
-        item.result = req.result;
-        item.isWin = req.bet == item.result;
-        console.log("Result", item);
+        if (item) {
+          item.result = req.result;
+          item.isWin = item.bet == item.result;
+          console.log("Result", item);
+        }
       });
     }
 
@@ -101,7 +109,7 @@ async function run() {
       Math.max(leaderboard.length - listSize, 0),
       Math.min(leaderboard.length, listSize)
     );
-    await writeLog(JSON.stringify(leaderboard), flip_list_path);
+    await writeLog(JSON.stringify(leaderboard), leaderboardPath);
   } catch (error) {
     console.log(new Date().toISOString() + error);
   }
