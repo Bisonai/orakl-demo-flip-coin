@@ -3,58 +3,62 @@ const web3 = require("web3");
 require("dotenv").config();
 
 const abi = require("./FlipCoin.json");
-const block_log_path = "block_flip_log.txt";
-const flip_list_path = "data.json";
+const blockLogPath = "block_flip_log.txt";
+const flip_list_path = "leaderboard/data.json";
 const listSize = 20;
 
 const rpc = process.env.RPC_URL;
-const contract_address = process.env.FLIPCOIN_ADDRESS;
-const provider = new web3.providers.HttpProvider(rpc);
-const web3bsc = new web3(provider);
-const contract = new web3bsc.eth.Contract(abi, contract_address);
+const contractAddress = process.env.FLIPCOIN_ADDRESS;
+const rpcProvider = new web3.providers.HttpProvider(rpc);
+const provider = new web3(rpcProvider);
+const contract = new provider.eth.Contract(abi, contractAddress);
 
-let last_block = 0;
-let apiurl = "";
-let isBlock = false;
+let blocking = false;
 
-function getlastblock() {
+function getLastObservedBlock() {
   try {
-    last_block = fs.readFileSync(block_log_path, "utf8");
-  } catch {}
+    return fs.readFileSync(blockLogPath, "utf8");
+  } catch (error) {
+    console.log(new Date().toISOString() + error);
+  }
 }
 
-getlastblock();
+let fromBlock = getLastObservedBlock();
 
-async function writelog(content, logfile) {
+async function writeLog(content, logfile) {
   try {
     fs.writeFileSync(logfile, content.toString(), { flag: "w" });
   } catch (error) {
-    console.log(error);
+    console.log(new Date().toISOString() + error);
   }
 }
 
 async function run() {
-  if (isBlock) {
+  if (blocking) {
     return;
   }
-  isBlock = true;
-  let lastest_block;
-  try {
-    lastest_block = await web3bsc.eth.getBlockNumber();
-    if (last_block == 0) {
-      last_block = parseInt(lastest_block) - 1000;
-    }
-    if (parseInt(lastest_block) - parseInt(last_block) > 1000) {
-      lastest_block = parseInt(last_block) + 1000;
-    }
-    let options = {
-      fromBlock: last_block,
-      toBlock: lastest_block,
-    };
-    let lst = [];
 
+  blocking = true;
+  let toBlock;
+
+  try {
+    toBlock = await provider.eth.getBlockNumber();
+    if (fromBlock == 0) {
+      fromBlock = parseInt(toBlock) - 1000;
+    }
+
+    if (parseInt(toBlock) - parseInt(fromBlock) > 1000) {
+      toBlock = parseInt(fromBlock) + 1000;
+    }
+
+    const options = {
+      fromBlock: fromBlock,
+      toBlock: toBlock,
+    };
+
+    let leaderboard = [];
     if (fs.existsSync(flip_list_path)) {
-      lst = JSON.parse(fs.readFileSync(flip_list_path));
+      leaderboard = JSON.parse(fs.readFileSync(flip_list_path));
     }
 
     let events = await contract.getPastEvents("Flip", options);
@@ -70,8 +74,10 @@ async function run() {
         req.transaction_id = event.transactionHash;
         req.playAt = Math.floor(Date.now() / 1000);
         req.result = undefined;
-        if (lst.indexOf((q) => q.requestId == req.requestId) == -1) {
-          lst.push(req);
+
+        if (leaderboard.indexOf((q) => q.requestId == req.requestId) == -1) {
+          leaderboard.push(req);
+          console.log("Flip", req);
         }
       });
     }
@@ -81,27 +87,29 @@ async function run() {
       events.map(async (event) => {
         let req = {};
         req.player = event.returnValues.player;
-        req.requestId = event.returnValues.requestid;
+        req.requestId = event.returnValues.requestId;
         req.result = parseInt(event.returnValues.result);
 
-        let item = lst.filter((q) => q.requestId == req.requestId)[0];
+        let item = leaderboard.filter((q) => q.requestId == req.requestId)[0];
         item.result = req.result;
         item.isWin = req.bet == item.result;
+        console.log("Result", item);
       });
-      console.log("event Result", events);
     }
-    lst = lst.slice(
-      Math.max(lst.length - listSize, 0),
-      Math.min(lst.length, listSize)
+
+    leaderboard = leaderboard.slice(
+      Math.max(leaderboard.length - listSize, 0),
+      Math.min(leaderboard.length, listSize)
     );
-    await writelog(JSON.stringify(lst), flip_list_path);
+    await writeLog(JSON.stringify(leaderboard), flip_list_path);
   } catch (error) {
-    console.log(new Date().toISOString() + " catch error:" + error);
+    console.log(new Date().toISOString() + error);
   }
-  console.log(last_block, lastest_block);
-  last_block = lastest_block + 1;
-  await writelog(last_block, block_log_path);
-  isBlock = false;
+
+  console.log(fromBlock, toBlock);
+  fromBlock = toBlock + 1;
+  await writeLog(fromBlock, blockLogPath);
+  blocking = false;
 }
 
-setInterval(run, 1000 * 3);
+setInterval(run, 900);
