@@ -3,6 +3,9 @@
 This repository contains a simple flip coin game utilizing [Orakl Network Verifiable Random Function (VRF)](https://orakl.network/).
 VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repository is compatible with both.
 
+<img width="864" alt="image" src="https://github.com/Bisonai/flip-coin-orakl/assets/2312761/3ff7a81d-5ca3-4e28-a1d2-876fe092042d">
+
+
 ## What is Flip Coin Game?
 
 "Flip Coin" is a betting game implemented as a Solidity smart contract.
