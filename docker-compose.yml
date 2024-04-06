@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  web:
+  frontend:
     build:
       context: .
       dockerfile: frontend.Dockerfile
@@ -9,7 +9,8 @@ services:
     command: ["yarn", "start"]
     ports:
       - "3000:3000"
-  job:
+
+  backend:
     build:
       context: .
       dockerfile: backend.Dockerfile
