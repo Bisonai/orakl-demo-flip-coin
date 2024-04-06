@@ -66,7 +66,10 @@ FlipCoin 0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F
 
 Now, you need to add address of your deployed `FlipCoin` contract as consumer to your Orakl Network account.
 
-### 3. Launch backend (optional)
+### 3. Launch Backend (optional)
+
+Backend is used for event data collection of players' bets.
+Collected bet information are displayed in frontend leaderboard.
 
 Navigate to the `backend` directory.
 
