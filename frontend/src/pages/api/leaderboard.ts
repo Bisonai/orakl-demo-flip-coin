@@ -17,7 +17,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Player[]>
 ) {
-  const jsonDirectory = path.join(process.cwd(), "leaderboard");
-  const fileContents = await fs.readFile(jsonDirectory + "/data.json", "utf8");
-  res.status(200).json(JSON.parse(fileContents));
+  const leaderboardDirectory = path.join(process.cwd(), "leaderboard");
+  let leaderboard = [];
+  try {
+    leaderboard = JSON.parse(
+      await fs.readFile(leaderboardDirectory + "/data.json", "utf8")
+    );
+  } catch (err) {}
+
+  res.status(200).json(leaderboard);
 }
