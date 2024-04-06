@@ -1,5 +1,4 @@
 import { ethers, hardhatArguments } from "hardhat";
-import * as Config from "./config";
 import * as dotenv from "dotenv";
 dotenv.config(".env");
 
@@ -12,7 +11,6 @@ const KEY_HASH =
   "0xd9af33106d664a53cb9946df5cd81a30695f5b72224ee64e798b278af812779c";
 
 async function main() {
-  await Config.initConfig();
   const network = hardhatArguments.network ? hardhatArguments.network : "local";
   const [deployer] = await ethers.getSigners();
 
@@ -21,9 +19,6 @@ async function main() {
 
   console.log("Deployer", deployer.address);
   console.log("FlipCoin", flipCoin.address);
-
-  Config.setConfig(network + ".flipCoin", flipCoin.address);
-  await Config.updateConfig();
 }
 
 main()
