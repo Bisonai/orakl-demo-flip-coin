@@ -46,6 +46,14 @@ export default class BaseInterface {
     }
   };
 
+  _toNumber = (bigNumber: BigNumber) => {
+    try {
+      return bigNumber.toNumber();
+    } catch (er) {
+      return Number.parseFloat(ethers.utils.formatEther(bigNumber));
+    }
+  };
+
   _toEther = (bigNumber: BigNumber) => {
     return Number.parseFloat(ethers.utils.formatEther(bigNumber));
   };
