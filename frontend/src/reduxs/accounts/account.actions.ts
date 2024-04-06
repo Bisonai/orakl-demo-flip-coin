@@ -1,10 +1,15 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import { FlipCoinContract } from "../../contracts/FlipCoinContract";
+import {
+  FlipCoinContract,
+  FlipCoinContractReadOnly,
+} from "../../contracts/FlipCoinContract";
 import { IRequestInfo } from "../../contracts/types";
 import { IFlipModel, IWalletInfo } from "../../types";
 import { timer } from "../../utils";
 import stores from "../store";
+import { getFlipCoinAbi } from "../../contracts/utils/getAbis";
+import { getFlipCoinAddress, getRPC } from "../../utils/getEnv";
 
 export const logoutAction = createAction("account/logoutAction");
 export const setActiveMenu = createAction<string>("account/setActiveMenu");
@@ -29,14 +34,25 @@ export const flipCoinAction = createAsyncThunk<IRequestInfo, IFlipModel>(
   async (model) => {
     const { web3Provider } = stores.getState().account;
     if (!web3Provider) throw new Error("Provider is null or undefined.");
+
     const flipContract = new FlipCoinContract(web3Provider);
     const flipResponse = await flipContract.flip(model.type, model.amount);
+
+    const jsonRpcProvider = new ethers.providers.JsonRpcProvider(getRPC());
+    const flipContractReadOnly = new FlipCoinContractReadOnly(
+      jsonRpcProvider,
+      getFlipCoinAddress(),
+      getFlipCoinAbi()
+    );
+
     const TIME_OUT = 1000;
     while (true) {
-      const rs: IRequestInfo = await flipContract.requestInfors(
+      const rs: IRequestInfo = await flipContractReadOnly.requestInfors(
         flipResponse.requestId
       );
+
       if (rs.hasResult) return { ...rs, txHash: flipResponse.txHash };
+
       await timer(TIME_OUT);
     }
   }
