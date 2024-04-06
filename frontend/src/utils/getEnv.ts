@@ -7,5 +7,5 @@ export const getExplorerUrl = () => {
 };
 
 export const getFlipCoinAddress = () => {
-  return process.env.NEXT_PUBLIC_FLIPCOIN_ADDRESS;
+  return process.env.NEXT_PUBLIC_FLIPCOIN_ADDRESS || "0x0";
 };

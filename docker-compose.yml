@@ -1,20 +1,21 @@
 version: "3.8"
 services:
-  web:
+  frontend:
     build:
       context: .
       dockerfile: frontend.Dockerfile
     volumes:
-      - leaderboard:/app/fe/json
+      - leaderboard:/app/frontend/leaderboard
     command: ["yarn", "start"]
     ports:
       - "3000:3000"
-  job:
+
+  backend:
     build:
       context: .
       dockerfile: backend.Dockerfile
     volumes:
-      - leaderboard:/app/backend/json
+      - leaderboard:/app/backend/leaderboard
     command: ["yarn", "start"]
 
 volumes:

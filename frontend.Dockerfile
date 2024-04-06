@@ -11,8 +11,6 @@ WORKDIR /app/frontend
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-
-
 RUN yarn install && yarn build
 RUN chown nextjs:nodejs .next
 

@@ -5,7 +5,6 @@ VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repos
 
 <img width="864" alt="image" src="https://github.com/Bisonai/flip-coin-orakl/assets/2312761/3ff7a81d-5ca3-4e28-a1d2-876fe092042d">
 
-
 ## What is Flip Coin Game?
 
 "Flip Coin" is a betting game implemented as a Solidity smart contract.
@@ -23,7 +22,7 @@ You can create one through https://orakl.network/account.
 Once you have successfully created an account, you will be prompted to "Add Consumer" (which will be possible after the `FlipCoin` smart contract is deployed) and to "Deposit $KLAY" into your account.
 The $KLAY in your account will be used as payment for VRF requests.
 If you do not have $KLAY in your account, you won't be able to request VRF, and the Flip Coin game will not function.
-$KLAY tokens can be obtained from the [Baobab faucet](https://baobab.wallet.klaytn.foundation/faucet).
+$KLAY tokens can be requested through [Baobab faucet](https://baobab.wallet.klaytn.foundation/faucet).
 
 ### 2. Deploy Smart Contracts
 
@@ -67,7 +66,10 @@ FlipCoin 0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F
 
 Now, you need to add address of your deployed `FlipCoin` contract as consumer to your Orakl Network account.
 
-### 3. Launch backend (optional)
+### 3. Launch Backend (optional)
+
+Backend is used for event data collection of players' bets.
+Collected bet information are displayed in frontend leaderboard.
 
 Navigate to the `backend` directory.
 
@@ -82,7 +84,7 @@ RPC_URL=
 FLIPCOIN_ADDRESS=
 ```
 
-* `RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain (Cypress: https://klaytn-mainnet-rpc.allthatnode.com:8551, Baobab: https://klaytn-baobab-rpc.allthatnode.com:8551)
+* `RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain ([Cypress JSON-RPC](https://klaytn-mainnet-rpc.allthatnode.com:8551), [Baobab JSON-RPC](https://klaytn-baobab-rpc.allthatnode.com:8551))
 * `FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
 
 Install dependencies, and launch backend.
@@ -114,8 +116,8 @@ NEXT_PUBLIC_RPC_URL=
 NEXT_PUBLIC_FLIPCOIN_ADDRESS=
 ```
 
-* `NEXT_PUBLIC_EXPLORER` - url of klaytn blockchain explorer (Cypress: https://klaytnfinder.io/, Baobab: https://baobab.klaytnfinder.io/)
-* `NEXT_PUBLIC_RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain (Cypress: https://klaytn-mainnet-rpc.allthatnode.com:8551, Baobab: https://klaytn-baobab-rpc.allthatnode.com:8551)
+* `NEXT_PUBLIC_EXPLORER` - url of klaytn blockchain explorer ([Cypress block explorer](https://klaytnfinder.io/), [Baobab block explorer](https://baobab.klaytnfinder.io/))
+* `NEXT_PUBLIC_RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain ([Cypress JSON-RPC](https://klaytn-mainnet-rpc.allthatnode.com:8551), [Baobab JSON-RPC](https://klaytn-baobab-rpc.allthatnode.com:8551))
 * `NEXT_PUBLIC_FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
 
 Next, you can start the website in a development mode.
@@ -133,7 +135,7 @@ yarn start
 
 ## Docker
 
-Ensure your Docker service is installed and running on your local machine.
+Ensure Docker service is installed and running on your local machine.
 
 ```shell
 brew install docker
@@ -143,16 +145,16 @@ brew install docker-compose
 Create a volume for storing backend data.
 
 ```shell
-docker volume create leadearboard
+docker volume create leaderboard
 ```
 
-Build the Docker images (frontend + backend).
+Build images (frontend + backend).
 
 ```shell
 docker-compose -f docker-compose.yml build
 ```
 
-Launch the containers (frontend + backend).
+Launch containers (frontend + backend).
 
 ```shell
 docker-compose -f docker-compose.yml up

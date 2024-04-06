@@ -1,5 +1,5 @@
 import { TransactionResponse } from "@ethersproject/abstract-provider";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { BaseInterface } from "./interfaces";
 import { FLIP_TYPE, IFlipResponse, IPlayerInfo, IRequestInfo } from "./types";
 import { getFlipCoinAbi } from "./utils/getAbis";
@@ -35,6 +35,24 @@ export class FlipCoinContract extends BaseInterface {
       "Flip"
     )) as ethers.utils.Result;
     return { requestId: event.requestId.toString(), txHash: tx.hash };
+  };
+}
+
+export class FlipCoinContractReadOnly {
+  constructor(
+    provider: ethers.providers.JsonRpcProvider,
+    address: string,
+    abi: ethers.ContractInterface
+  ) {
+    this._contract = new ethers.Contract(address, abi, provider);
+  }
+
+  _toNumber = (bigNumber: BigNumber) => {
+    try {
+      return bigNumber.toNumber();
+    } catch (er) {
+      return Number.parseFloat(ethers.utils.formatEther(bigNumber));
+    }
   };
 
   requestInfors = async (requestId: string): Promise<IRequestInfo> => {
