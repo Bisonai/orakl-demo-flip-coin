@@ -112,10 +112,12 @@ Create an `.env` file and specify the parameters below.
 
 ```shell
 NEXT_PUBLIC_EXPLORER=
+NEXT_PUBLIC_RPC_URL=
 NEXT_PUBLIC_FLIPCOIN_ADDRESS=
 ```
 
 * `NEXT_PUBLIC_EXPLORER` - url of klaytn blockchain explorer ([Cypress block explorer](https://klaytnfinder.io/), [Baobab block explorer](https://baobab.klaytnfinder.io/))
+* `NEXT_PUBLIC_RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain ([Cypress JSON-RPC](https://klaytn-mainnet-rpc.allthatnode.com:8551), [Baobab JSON-RPC](https://klaytn-baobab-rpc.allthatnode.com:8551))
 * `NEXT_PUBLIC_FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
 
 Next, you can start the website in a development mode.
