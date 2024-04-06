@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: frontend.Dockerfile
     volumes:
-      - leaderboard:/app/fe/json
+      - leaderboard:/app/frontend/leaderboard
     command: ["yarn", "start"]
     ports:
       - "3000:3000"
@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: backend.Dockerfile
     volumes:
-      - leaderboard:/app/backend/json
+      - leaderboard:/app/backend/leaderboard
     command: ["yarn", "start"]
 
 volumes:
