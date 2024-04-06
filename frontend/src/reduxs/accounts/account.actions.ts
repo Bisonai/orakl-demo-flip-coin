@@ -31,7 +31,7 @@ export const flipCoinAction = createAsyncThunk<IRequestInfo, IFlipModel>(
     if (!web3Provider) throw new Error("Provider is null or undefined.");
     const flipContract = new FlipCoinContract(web3Provider);
     const flipResponse = await flipContract.flip(model.type, model.amount);
-    const TIME_OUT = 5000;
+    const TIME_OUT = 1000;
     while (true) {
       const rs: IRequestInfo = await flipContract.requestInfors(
         flipResponse.requestId
