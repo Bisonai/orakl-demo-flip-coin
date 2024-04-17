@@ -1,6 +1,6 @@
 # Flip Coin
 
-This repository contains a simple flip coin game utilizing [Orakl Network Verifiable Random Function (VRF)](https://orakl.network/).
+This repository contains a simple flip coin game utilizing [Orakl Network Verifiable Randomness Function (VRF)](https://orakl.network/).
 VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repository is compatible with both.
 
 <img width="864" alt="image" src="https://github.com/Bisonai/flip-coin-orakl/assets/2312761/3ff7a81d-5ca3-4e28-a1d2-876fe092042d">
@@ -9,7 +9,7 @@ VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repos
 
 "Flip Coin" is a betting game implemented as a Solidity smart contract.
 Users can bet any amount of $KLAY on the outcome of a random coin flip, with a 50% chance for heads and a 50% chance for tails.
-Randomness is generated using the [Verifiable Random Function (VRF)](https://docs.orakl.network/developers-guide/vrf) provided by [Orakl Network](https://orakl.network/).
+Randomness is generated using the [Verifiable Randomness Function (VRF)](https://docs.orakl.network/developers-guide/vrf) provided by [Orakl Network](https://orakl.network/).
 If the bet is correct, the user is rewarded with twice the amount bet, otherwise, the smart contract retains the user's bet.
 After the user ends the game, all $KLAY can be claimed at once.
 
