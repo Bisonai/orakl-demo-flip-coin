@@ -1,7 +1,7 @@
 {
-  "name": "@bisonai/flip-coin-orakl-backend",
-  "version": "1.0.0",
-  "description": "Flip Coin Orakl Backend",
+  "name": "@bisonai/orakl-demo-flip-coin-backend",
+  "version": "0.1.0",
+  "description": "Orakl Network Flip Coin Backend",
   "author": "Bisonai",
   "homepage": "https://github.com/Bisonai/orakl-demo-flip-coin/tree/main/backend",
   "license": "MIT",

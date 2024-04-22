@@ -3,7 +3,7 @@
 This repository contains a simple flip coin game utilizing [Orakl Network Verifiable Randomness Function (VRF)](https://orakl.network/).
 VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repository is compatible with both.
 
-<img width="864" alt="image" src="https://github.com/Bisonai/flip-coin-orakl/assets/2312761/3ff7a81d-5ca3-4e28-a1d2-876fe092042d">
+<img width="864" alt="image" src="https://github.com/Bisonai/orakl-demo-flip-coin/assets/2312761/3ff7a81d-5ca3-4e28-a1d2-876fe092042d">
 
 ## What is Flip Coin Game?
 
@@ -17,7 +17,7 @@ After the user ends the game, all $KLAY can be claimed at once.
 
 ### 1. Create Orakl Network Account
 
-[FlipCoin.sol](contracts/contracts/FlipCoin.sol) requires Orakl Network [Permanent Account](https://docs.orakl.network/developers-guide/prepayment).
+[FlipCoin.sol](contracts/src/FlipCoin.sol) requires Orakl Network [Permanent Account](https://docs.orakl.network/developers-guide/prepayment).
 You can create one through https://orakl.network/account.
 Once you have successfully created an account, you will be prompted to "Add Consumer" (which will be possible after the `FlipCoin` smart contract is deployed) and to "Deposit $KLAY" into your account.
 The $KLAY in your account will be used as payment for VRF requests.
