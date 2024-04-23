@@ -64,7 +64,7 @@ Deployer 0xa37AcA2eaf7dcc199820Dc17689a17839B7510e9
 FlipCoin 0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F
 ```
 
-Now, you need to add address of your deployed `FlipCoin` contract as consumer to your Orakl Network account.
+Finally, you need to add the address of your deployed `FlipCoin` contract as a consumer to your Orakl Network account, and deposit $KLAY tokens into the `FlipCoin` contract to make it possible to win.
 
 ### 3. Launch Backend (optional)
 
