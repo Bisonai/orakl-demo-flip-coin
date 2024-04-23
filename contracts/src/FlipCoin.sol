@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity ^0.8.20;
 
 import {Ownable} from "openzeppelin-solidity/contracts/access/Ownable.sol";
 import {VRFConsumerBase} from "@bisonai/orakl-contracts/src/v0.1/VRFConsumerBase.sol";
@@ -162,6 +162,6 @@ contract FlipCoin is VRFConsumerBase, Ownable {
         payable(msg.sender).transfer(_amount);
     }
 
-    // Receive remaining payment from requestRandomWordsPayment
+    // Receive remaining payment from requestRandomWords
     receive() external payable {}
 }
