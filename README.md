@@ -1,17 +1,17 @@
 # Flip Coin
 
 This repository contains a simple flip coin game utilizing [Orakl Network Verifiable Randomness Function (VRF)](https://orakl.network/).
-VRF is deployed on Klaytn mainnet (Cypress) and testnet (Baobab), and this repository is compatible with both.
+VRF is deployed on Kaia mainnet and testnet (Kairos), and this repository is compatible with both.
 
 <img width="864" alt="image" src="https://github.com/Bisonai/orakl-demo-flip-coin/assets/2312761/3ff7a81d-5ca3-4e28-a1d2-876fe092042d">
 
 ## What is Flip Coin Game?
 
 "Flip Coin" is a betting game implemented as a Solidity smart contract.
-Users can bet any amount of $KLAY on the outcome of a random coin flip, with a 50% chance for heads and a 50% chance for tails.
+Users can bet any amount of $KAIA on the outcome of a random coin flip, with a 50% chance for heads and a 50% chance for tails.
 Randomness is generated using the [Verifiable Randomness Function (VRF)](https://docs.orakl.network/developers-guide/vrf) provided by [Orakl Network](https://orakl.network/).
 If the bet is correct, the user is rewarded with twice the amount bet, otherwise, the smart contract retains the user's bet.
-After the user ends the game, all $KLAY can be claimed at once.
+After the user ends the game, all $KAIA can be claimed at once.
 
 ## Development
 
@@ -19,10 +19,10 @@ After the user ends the game, all $KLAY can be claimed at once.
 
 [FlipCoin.sol](contracts/src/FlipCoin.sol) requires Orakl Network [Permanent Account](https://docs.orakl.network/developers-guide/prepayment).
 You can create one through https://orakl.network/account.
-Once you have successfully created an account, you will be prompted to "Add Consumer" (which will be possible after the `FlipCoin` smart contract is deployed) and to "Deposit $KLAY" into your account.
-The $KLAY in your account will be used as payment for VRF requests.
-If you do not have $KLAY in your account, you won't be able to request VRF, and the Flip Coin game will not function.
-$KLAY tokens can be requested through [Baobab faucet](https://baobab.wallet.klaytn.foundation/faucet).
+Once you have successfully created an account, you will be prompted to "Add Consumer" (which will be possible after the `FlipCoin` smart contract is deployed) and to "Deposit $KAIA" into your account.
+The $KAIA in your account will be used as payment for VRF requests.
+If you do not have $KAIA in your account, you won't be able to request VRF, and the Flip Coin game will not function.
+$KAIA tokens can be requested through [Kairos faucet](https://www.kaia.io/faucet).
 
 ### 2. Deploy Smart Contracts
 
@@ -48,7 +48,7 @@ ACCOUNT_ID=
 * `PRIV_KEY` - private key that will be utilized for smart contract deployment
 * `ACCOUNT_ID` - Orakl Network account ID (can be found at https://orakl.network/account)
 
-Deploy smart contracts on [Baobab network](https://klaytn.foundation) by executing the command below.
+Deploy smart contracts on [Kairos network](https://www.kaia.io) by executing the command below.
 
 ```shell
 yarn deploy baobab
@@ -64,7 +64,7 @@ Deployer 0xa37AcA2eaf7dcc199820Dc17689a17839B7510e9
 FlipCoin 0x0458E0244E23B4663B4a28671EC4bfA3BbD3628F
 ```
 
-Finally, you need to add the address of your deployed `FlipCoin` contract as a consumer to your Orakl Network account, and deposit $KLAY tokens into the `FlipCoin` contract to make it possible to win.
+Finally, you need to add the address of your deployed `FlipCoin` contract as a consumer to your Orakl Network account, and deposit $KAIA tokens into the `FlipCoin` contract to make it possible to win.
 
 ### 3. Launch Backend (optional)
 
@@ -84,7 +84,7 @@ RPC_URL=
 FLIPCOIN_ADDRESS=
 ```
 
-* `RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain ([Cypress JSON-RPC](https://klaytn-mainnet-rpc.allthatnode.com:8551), [Baobab JSON-RPC](https://klaytn-baobab-rpc.allthatnode.com:8551))
+* `RPC_URL` - JSON-RPC url that is used to communicate with Kaia blockchain ([Mainnet JSON-RPC](https://public-en.node.kaia.io), [Kairos JSON-RPC](https://public-en-kairos.node.kaia.io))
 * `FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
 
 Install dependencies, and launch backend.
@@ -116,8 +116,8 @@ NEXT_PUBLIC_RPC_URL=
 NEXT_PUBLIC_FLIPCOIN_ADDRESS=
 ```
 
-* `NEXT_PUBLIC_EXPLORER` - url of klaytn blockchain explorer ([Cypress block explorer](https://klaytnfinder.io/), [Baobab block explorer](https://baobab.klaytnfinder.io/))
-* `NEXT_PUBLIC_RPC_URL` - JSON-RPC url that is used to communicate with klaytn blockchain ([Cypress JSON-RPC](https://klaytn-mainnet-rpc.allthatnode.com:8551), [Baobab JSON-RPC](https://klaytn-baobab-rpc.allthatnode.com:8551))
+* `NEXT_PUBLIC_EXPLORER` - url of Kaia blockchain explorer ([Mainnet block explorer](https://kaiascan.io/), [Kairos block explorer](https://kairos.kaiascan.io/))
+* `NEXT_PUBLIC_RPC_URL` - JSON-RPC url that is used to communicate with Kaia blockchain ([Mainnet JSON-RPC](https://public-en.node.kaia.io), [Kairos JSON-RPC](https://public-en-kairos.node.kaia.io))
 * `NEXT_PUBLIC_FLIPCOIN_ADDRESS` - address of deployed `FlipCoin` smart contract
 
 Next, you can start the website in a development mode.

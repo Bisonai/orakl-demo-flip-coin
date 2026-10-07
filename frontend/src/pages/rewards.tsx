@@ -70,7 +70,7 @@ const Rewards: NextPage = () => {
           <Text variant="with-title" textAlign="center" lineHeight="30px">
             You have{" "}
             <span style={{ color: "#fedf56" }}>
-              {numberFormat(info?.balance || 0)} KLAY
+              {numberFormat(info?.balance || 0)} KAIA
             </span>{" "}
             in winnings in fee rewards.
           </Text>

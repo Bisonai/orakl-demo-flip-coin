@@ -62,7 +62,7 @@ const WalletInformation = ({ ...props }: IProps) => {
                 >
                   {numberFormat(walletInfo.bnbBalance)}
                 </Text>
-                <Image src="/klay.png" alt="klay" w="16px" />
+                <Image src="/kaia.svg" alt="kaia" w="16px" />
               </HStack>
             </HStack>
           </MenuButton>

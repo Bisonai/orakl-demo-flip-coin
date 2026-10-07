@@ -32,7 +32,7 @@ export default function Header() {
       px="20px"
     >
       <HStack position="relative" onClick={() => setOpenMenu(!isOpenMenu)}>
-        <Image src="/klay.png" w={{ base: "20px", lg: "35px" }} />
+        <Image src="/kaia.svg" w={{ base: "20px", lg: "35px" }} />
         <Text
           variant="with-title"
           fontSize={{ base: "12px", lg: "25px" }}
