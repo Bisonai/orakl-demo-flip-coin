@@ -22,8 +22,8 @@ module.exports = {
       accounts: [process.env.PRIV_KEY],
       saveDeployments: true,
     },
-    baobab: {
-      url: "https://public-en.kairos.node.kaia.io",
+    kairos: {
+      url: "https://public-en-kairos.node.kaia.io",
       accounts: [process.env.PRIV_KEY],
       gasPrice: 250_000_000_000,
       chainId: 1001,

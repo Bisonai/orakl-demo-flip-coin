@@ -51,13 +51,13 @@ ACCOUNT_ID=
 Deploy smart contracts on [Kairos network](https://www.kaia.io) by executing the command below.
 
 ```shell
-yarn deploy baobab
+yarn deploy kairos
 ```
 
 After successfull execution you should be able to see output similar to the following.
 
 ```
-$ hardhat run scripts/deploy.ts --network baobab
+$ hardhat run scripts/deploy.ts --network kairos
 Creating Typechain artifacts in directory typechain for target ethers-v5
 Successfully generated Typechain artifacts!
 Deployer 0xa37AcA2eaf7dcc199820Dc17689a17839B7510e9
