@@ -75,7 +75,7 @@ export default function PlayView() {
       >
         <VStack w={{ base: "100%", lg: "30%" }}>
           <ImageMotion
-            src="/klay.png"
+            src="/kaia.svg"
             alt="degen coin flip"
             w="150px"
             cursor="pointer"
@@ -111,14 +111,14 @@ export default function PlayView() {
           <HStack my="20px !important" w="full">
             <Divider w={{ base: "28%", lg: "31%" }} />
             <Text variant="with-title" textAlign="center">
-              CHOOSE BET {chooseBet ? `(${numberFormat(chooseBet)}KLAY)` : ""}{" "}
+              CHOOSE BET {chooseBet ? `(${numberFormat(chooseBet)}KAIA)` : ""}{" "}
             </Text>
             <Divider w={{ base: "28%", lg: "31%" }} colorScheme="red" />
           </HStack>
           <SimpleGrid columns={3} spacingX="20px" spacingY="20px" w="full">
             {CHOOSE_BEST.map((bet, index) => (
               <FlipButton
-                text={`${bet} KLAY`}
+                text={`${bet} KAIA`}
                 isDisabled={chooseBet !== bet}
                 key={index}
                 index={index}

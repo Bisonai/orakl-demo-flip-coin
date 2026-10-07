@@ -44,7 +44,7 @@ const FlippedList = () => {
         >
           <Stack direction={{ base: "column", lg: "row" }}>
             <HStack>
-              <Image src="/klay.png" w="20px" />
+              <Image src="/kaia.svg" w="20px" />
               <Text
                 variant="with-title"
                 fontSize="10px"
